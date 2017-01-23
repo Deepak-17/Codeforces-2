@@ -1,60 +1,41 @@
-#include <iostream>
+#include<iostream>
+
 using namespace std;
+long long count=0, mini, maxi, mid;
+void order(long long a, long long b, long long c)
+{
+	mini=a<b?((a<c)?a:c):((b<c)?b:c);
+	maxi=a>b?((a>c)?a:c):((b>c)?b:c);
+	mid=(a+b+c)-(mini+maxi);
+}
+
+void func(long long a, long long b, long long c)
+{
+	if (maxi==1 && mid==1 && mini==1)
+		{
+			count+=1;
+			return ;
+		}
+	maxi-=2;
+	mid-=1;
+	if(maxi>=0 && mid>=0)
+	{
+		count+=1;
+		order(maxi, mid, mini);
+		// mini=a<b?((a<c)?a:c):((b<c)?b:c);
+		// max=a>b?((a>c)?a:c):((b>c)?b:c);
+		// mid=(a+b+c)-(mini+max);
+		func(maxi,mid,mini);
+	}
+	else
+		return;
+}
 
 int main()
 {
-    int t; // number of test cases
-    long long int n,m;
-    cin >>t;
-    while (t--)
-    {
-    	cin>>n;
-    	long long int X[n];
-    	long long int score[n]; // x+P
-	    long long int a[n];
-	    for(long long int i=0; i<n; i++)
-	    {
-	    	cin>>a[i];
-	    }
-
-	    for (long long int i=0; i<n; i++)
-        {
-            if (n==1)
-            {
-                cout<<"1";
-            }
-            else
-            {
-            long long int j=(i), bwd=0, fwd=0;
-            while ((j)>0 && a[j]<a[i])
-            {
-                bwd++;
-                --j;
-            }
-            j=(i);
-            while ((++j)<n && a[j]<a[i])
-            {
-                fwd++;
-
-            }
-            X[i]=(bwd + fwd);
-            score[i]=X[i]*(i+1);
-            }
-
-            //cout<< score[i]<<"\n";
-        }
-        long long int largest=score[0], mini;
-        for (long long int i=0; i<n; i++)
-        {
-            if (score[i]>largest)
-            {
-                largest=score[i];
-                mini=i+1;
-            }
-        }
-        cout<<mini<<"\n";
-
-
-    }
-
+	long long a,b,c;
+	cin>>a>>b>>c;
+	order(a,b,c);
+	func(maxi,mid,mini);
+	cout<<count;
 }
